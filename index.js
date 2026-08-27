@@ -20,13 +20,10 @@ bot.command('start', async (ctx) => {
     await ctx.reply("Hello I'm bot")
 })
 
-// bot.on('message', async(ctx) => {
-//     await ctx.reply('I don\'t know whot you writing')
-// })
-
-bot.command(['say_hello', 'hello', 'sayHi'], async (ctx) => {
-    await ctx.reply('Hello!')
+bot.on('message:photo', async(ctx) => {
+    await ctx.reply('Thanks for you photo')
 })
+
 
 
 bot.catch( (err) => {
