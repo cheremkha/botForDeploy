@@ -1,0 +1,4 @@
+name = "testconsolidation"
+main = "index.js"
+compatibility_date = "2024-02-28"
+compatibility_flags = [ "nodejs_compat" ]
