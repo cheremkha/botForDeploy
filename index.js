@@ -15,7 +15,7 @@ bot.use(hydrate());
 bot.api.setMyCommands([
     {
         command: 'start', 
-        description: "Start bot"
+        description: "Start bot for talking with you"
     },
     {
         command: 'menu',
