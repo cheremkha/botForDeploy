@@ -1,13 +1,25 @@
 require('dotenv').config();
-const {Bot, GrammyError, HttpError, Keyboard, InlineKeyboard} = require('grammy');
+const {
+    Bot,
+    GrammyError,
+    HttpError,
+    Keyboard,
+    InlineKeyboard,
+} = require('grammy');
 
+const {hydrate} = require('@grammyjs/hydrate');
 
 const bot = new Bot(process.env.BOT_API_KEY);
+bot.use(hydrate());
 
 bot.api.setMyCommands([
     {
         command: 'start', 
         description: "Start bot"
+    },
+    {
+        command: 'menu',
+        description: 'Open general menu'
     },
     {
         command: 'help',
@@ -27,9 +39,44 @@ bot.api.setMyCommands([
     }, 
     {
         command: 'inline_keyboard',
-        description: 'Ne ebu co robit'
+        description: 'Touch and known co robit'
     }
 ])
+
+const menuKeyboard = new InlineKeyboard()
+    .text("Known status your delivery", 'order-status')
+    .text('helping operator', 'support');
+
+const backKeyboard = new InlineKeyboard().text("< Back", "back");
+
+bot.command('menu', async (ctx) => {
+    await ctx.react('☃')
+    await ctx.reply('Choise onece on menu: ', {
+        reply_markup: menuKeyboard,
+    })
+})
+
+bot.callbackQuery('order-status', async (ctx) => {
+    await ctx.callbackQuery.message.editText('Status : by car pizdue v chornogoriu',{
+        reply_markup: backKeyboard,
+    });
+    await ctx.answerCallbackQuery();
+})
+
+bot.callbackQuery('support', async (ctx) => {
+    await ctx.callbackQuery.message.editText('Input your problem: ',{
+        reply_markup: backKeyboard,
+    });
+        await ctx.answerCallbackQuery();
+})
+
+bot.callbackQuery('back', async (ctx) => {
+    await ctx.callbackQuery.message.editText('Choise onece on menu: ',{
+        reply_markup: menuKeyboard,
+    });
+        await ctx.answerCallbackQuery();
+})
+
 
 
 bot.command('start', async (ctx) => {
@@ -122,10 +169,10 @@ bot.callbackQuery('button-1', async (ctx) => {
 })
 
 
-bot.on('callback_query:data', async (ctx) => {
-     await ctx.answerCallbackQuery();
-    await ctx.reply (`You choice number ${ctx.callbackQuery.data}`)
-})
+// bot.on('callback_query:data', async (ctx) => {
+//      await ctx.answerCallbackQuery();
+//     await ctx.reply (`You choice number ${ctx.callbackQuery.data}`)
+// })
 
 bot.catch( (err) => {
     const ctx = err.ctx;

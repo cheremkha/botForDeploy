@@ -4,12 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-  "start": "nodemon index.js"
+    "start": "nodemon index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@grammyjs/hydrate": "^1.7.0",
     "dotenv": "^17.4.2",
     "grammy": "^1.46.0",
     "nodemon": "^3.1.14"
